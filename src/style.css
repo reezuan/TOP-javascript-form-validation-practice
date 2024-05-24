@@ -37,20 +37,34 @@ form {
 form > div {
     display: flex;
     flex-direction: column;
-    gap: 4px;
 }
 
 label {
     color: whitesmoke;
     font-size: 0.95rem;
+    margin-bottom: 5px;
 }
 
 input {
     padding: 5px 6px;
+    border-radius: 1px 1px 0 0;
+    border: none;
 }
 
 input:invalid {
     background-color: coral;
+}
+
+span[data-error-type] {
+    background-color: maroon;
+    color: white;
+    border-radius: 0 0 10px 10px;
+    font-style: italic;
+    font-size: 0.75rem;
+}
+
+span[data-error-type].active {
+    padding: 4px 6px;
 }
 
 button[type="submit"] {
@@ -61,4 +75,5 @@ button[type="submit"] {
     border: none;
     border-radius: 7px;
     margin-top: 10px;
+    cursor: pointer;
 }
