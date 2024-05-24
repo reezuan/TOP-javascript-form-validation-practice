@@ -3,6 +3,7 @@ import { emailInput } from "./emailInput.js";
 import { countryInput } from "./countryInput.js";
 import { countryList } from "./countryList.js";
 import { postalCodeInput } from "./postalCodeInput.js";
+import { passwordInput } from "./passwordInput.js";
 
 function form() {
     const form = document.createElement('form');
@@ -27,6 +28,12 @@ function form() {
     postalCodeDiv.appendChild(inputLabel(postalCode, 'Postal code'));
     postalCodeDiv.appendChild(postalCode);
     form.appendChild(postalCodeDiv);
+
+    const passwordDiv = document.createElement('div');
+    const password = passwordInput();
+    passwordDiv.appendChild(inputLabel(password, 'Password'));
+    passwordDiv.appendChild(password);
+    form.appendChild(passwordDiv);
 
     return form;
 }
