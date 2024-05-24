@@ -4,6 +4,7 @@ import { countryInput } from "./countryInput.js";
 import { countryList } from "./countryList.js";
 import { postalCodeInput } from "./postalCodeInput.js";
 import { passwordInput } from "./passwordInput.js";
+import { confirmPasswordInput } from "./confirmPasswordInput.js";
 
 function form() {
     const form = document.createElement('form');
@@ -34,6 +35,12 @@ function form() {
     passwordDiv.appendChild(inputLabel(password, 'Password'));
     passwordDiv.appendChild(password);
     form.appendChild(passwordDiv);
+
+    const confirmPasswordDiv = document.createElement('div');
+    const confirmPassword = confirmPasswordInput();
+    confirmPasswordDiv.appendChild(inputLabel(confirmPassword, 'Confirm password'));
+    confirmPasswordDiv.appendChild(confirmPassword);
+    form.appendChild(confirmPasswordDiv);
 
     return form;
 }
