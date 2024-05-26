@@ -51,8 +51,8 @@ input {
     border: none;
 }
 
-input:invalid {
-    background-color: coral;
+input.empty {
+    background-color: lightcoral;
 }
 
 span[data-error-type] {
@@ -64,7 +64,7 @@ span[data-error-type] {
 }
 
 span[data-error-type].active {
-    padding: 4px 6px;
+    padding: 5px 6px;
 }
 
 button[type="submit"] {
@@ -76,4 +76,8 @@ button[type="submit"] {
     border-radius: 7px;
     margin-top: 10px;
     cursor: pointer;
+}
+
+::placeholder {
+    color: white;
 }

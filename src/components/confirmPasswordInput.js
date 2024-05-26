@@ -4,6 +4,7 @@ function confirmPasswordInput() {
     confirmPasswordInput.setAttribute('type', 'password');
     confirmPasswordInput.setAttribute('id', 'confirm-password');
     confirmPasswordInput.setAttribute('name', 'confirm-password');
+    confirmPasswordInput.required = true;
 
     return confirmPasswordInput;
 }

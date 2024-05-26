@@ -4,6 +4,7 @@ function postalCodeInput() {
     postalCodeInput.setAttribute('type', 'tel');
     postalCodeInput.setAttribute('id', 'postal-code');
     postalCodeInput.setAttribute('name', 'postal-code');
+    postalCodeInput.required = true;
 
     return postalCodeInput;
 }

@@ -4,6 +4,7 @@ function countryInput() {
     countryInput.setAttribute('list', 'countries');
     countryInput.setAttribute('id', 'country');
     countryInput.setAttribute('name', 'country');
+    countryInput.required = true;
 
     return countryInput;
 }

@@ -12,35 +12,82 @@ function form() {
     const form = document.createElement('form');
     form.noValidate = true;
 
+    // ----- 'Email' field --------------------------------------------
     const emailInputDiv = document.createElement('div');
     const email = emailInput();
+    const emailSpan = inputSpan(email);
+
     emailInputDiv.appendChild(inputLabel(email, "Email"));
     emailInputDiv.appendChild(email);
-    emailInputDiv.appendChild(inputSpan(email));
-    
+    emailInputDiv.appendChild(emailSpan);
 
+    email.addEventListener('focusout', () => {
+        if (email.validity.typeMismatch) {
+            emailSpan.className = "active";
+            emailSpan.textContent = "Please enter a valid email address.";
+        } else {
+            emailSpan.className = "";
+            emailSpan.textContent = "";
+        }
+    });
+    
+    // ----- 'Country' field ------------------------------------------
     const countryInputDiv = document.createElement('div');
     const country = countryInput();
     const listOfCountries = countryList();
+    const countrySpan = inputSpan(country);
+
     countryInputDiv.appendChild(inputLabel(country, 'Country'));
     countryInputDiv.appendChild(country);
     countryInputDiv.appendChild(listOfCountries);
-    countryInputDiv.appendChild(inputSpan(country));
-    
+    countryInputDiv.appendChild(countrySpan);
 
+    country.addEventListener('focusout', () => {
+        const countriesArray = [];
+        
+        document.querySelectorAll('datalist#countries > option').forEach(option => {
+            countriesArray.push(option.getAttribute('value'));
+        })
+
+        if (!countriesArray.includes(country.value) && country.value !== '') {
+            countrySpan.className = "active";
+            countrySpan.textContent = "Please choose a country from the list.";
+        } else {
+            countrySpan.className = "";
+            countrySpan.textContent = "";
+        }
+
+    });
+    
+    // ----- 'Postal Code' field --------------------------------------
     const postalCodeDiv = document.createElement('div');
     const postalCode = postalCodeInput();
+    const postalCodeSpan = inputSpan(postalCode);
+    
     postalCodeDiv.appendChild(inputLabel(postalCode, 'Postal code'));
     postalCodeDiv.appendChild(postalCode);
-    postalCodeDiv.appendChild(inputSpan(postalCode));
-    
+    postalCodeDiv.appendChild(postalCodeSpan);
 
+    postalCode.setAttribute('pattern', '\\d\\d\\d\\d\\d\\d');
+
+    postalCode.addEventListener('focusout', () => {
+        if (postalCode.validity.patternMismatch) {
+            postalCodeSpan.className = "active";
+            postalCodeSpan.textContent = "Please enter a 6-digit postal code.";
+        } else {
+            postalCodeSpan.className = "";
+            postalCodeSpan.textContent = "";
+        }
+    });
+
+    // ----- 'Password' field -----------------------------------------
     const passwordDiv = document.createElement('div');
     const password = passwordInput();
+    const passwordSpan = inputSpan(password);
+    
     passwordDiv.appendChild(inputLabel(password, 'Password'));
     passwordDiv.appendChild(password);
-    passwordDiv.appendChild(inputSpan(password));
-    
+    passwordDiv.appendChild(passwordSpan);
 
     // ----- 'Confirm Password' field ---------------------------------
     const confirmPasswordDiv = document.createElement('div');
@@ -51,14 +98,46 @@ function form() {
     confirmPasswordDiv.appendChild(confirmPassword);
     confirmPasswordDiv.appendChild(confirmPasswordSpan);
 
-    confirmPassword.addEventListener('focusout', () => {
-        if (confirmPassword.value !== password.value) {
+    password.addEventListener('focusout', () => {
+        if (confirmPassword.value !== '' && confirmPassword.value !== password.value) {
             confirmPasswordSpan.className = "active";
             confirmPasswordSpan.textContent = "The passwords don't match.";
-        } else if (confirmPassword.value === password.value) {
+        } else {
             confirmPasswordSpan.className = "";
             confirmPasswordSpan.textContent = "";
         }
+    });
+    
+    confirmPassword.addEventListener('focusout', () => {
+        if (confirmPassword.value !== password.value && confirmPassword.value !== '') {
+            confirmPasswordSpan.className = "active";
+            confirmPasswordSpan.textContent = "The passwords don't match.";
+        } else {
+            confirmPasswordSpan.className = "";
+            confirmPasswordSpan.textContent = "";
+        }
+    });
+    
+    // ----- Submit button --------------------------------------------
+    const submit = submitButton('Sign up');
+
+    form.addEventListener('submit', (event) => {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+
+            const formInputElements = submit.closest('form').querySelectorAll('input');
+
+            formInputElements.forEach(inputElement => {
+                if (inputElement.validity.valueMissing) {
+                    inputElement.className = 'empty';
+                    inputElement.setAttribute('placeholder', 'Required');
+                }
+            });
+        }
+        
+        
+
+        
     });
     
     // ----- Assembling the form --------------------------------------
@@ -67,8 +146,6 @@ function form() {
     form.appendChild(postalCodeDiv);
     form.appendChild(passwordDiv);
     form.appendChild(confirmPasswordDiv);
-
-    const submit = submitButton('Sign up');
     form.appendChild(submit);
 
     return form;

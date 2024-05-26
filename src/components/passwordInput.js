@@ -4,6 +4,7 @@ function passwordInput() {
     passwordInput.setAttribute('type', 'password');
     passwordInput.setAttribute('id', 'password');
     passwordInput.setAttribute('name', 'password');
+    passwordInput.required = true;
 
     return passwordInput;
 }
