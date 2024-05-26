@@ -22,12 +22,16 @@ function form() {
     emailInputDiv.appendChild(emailSpan);
 
     email.addEventListener('focusout', () => {
-        if (email.validity.typeMismatch) {
-            emailSpan.className = "active";
-            emailSpan.textContent = "Please enter a valid email address.";
+        if (email.className === 'empty' && email.value === '') {
+            return;
+        } else if (email.validity.typeMismatch && email.value !== '') {
+            email.className = '';
+            emailSpan.className = 'active';
+            emailSpan.textContent = 'Please enter a valid email address.';
         } else {
-            emailSpan.className = "";
-            emailSpan.textContent = "";
+            email.className = '';
+            emailSpan.className = '';
+            emailSpan.textContent = '';
         }
     });
     
@@ -47,14 +51,20 @@ function form() {
         
         document.querySelectorAll('datalist#countries > option').forEach(option => {
             countriesArray.push(option.getAttribute('value'));
-        })
+        });
 
-        if (!countriesArray.includes(country.value) && country.value !== '') {
-            countrySpan.className = "active";
-            countrySpan.textContent = "Please choose a country from the list.";
+        if (country.className === 'empty' && country.value === '') {
+            return;
+        } else if (!countriesArray.includes(country.value) && country.value !== '') {
+            country.setCustomValidity('Please choose a country from the list.');
+            country.className = '';
+            countrySpan.className = 'active';
+            countrySpan.textContent = 'Please choose a country from the list.';
         } else {
-            countrySpan.className = "";
-            countrySpan.textContent = "";
+            country.setCustomValidity('');
+            country.className = '';
+            countrySpan.className = '';
+            countrySpan.textContent = '';
         }
 
     });
@@ -71,12 +81,16 @@ function form() {
     postalCode.setAttribute('pattern', '\\d\\d\\d\\d\\d\\d');
 
     postalCode.addEventListener('focusout', () => {
-        if (postalCode.validity.patternMismatch) {
-            postalCodeSpan.className = "active";
-            postalCodeSpan.textContent = "Please enter a 6-digit postal code.";
+        if (postalCode.className === 'empty' && postalCode.value === '') {
+            return;
+        } else if (postalCode.validity.patternMismatch) {
+            postalCode.className = '';
+            postalCodeSpan.className = 'active';
+            postalCodeSpan.textContent = 'Please enter a 6-digit postal code.';
         } else {
-            postalCodeSpan.className = "";
-            postalCodeSpan.textContent = "";
+            postalCode.className = '';
+            postalCodeSpan.className = '';
+            postalCodeSpan.textContent = '';
         }
     });
 
@@ -89,6 +103,16 @@ function form() {
     passwordDiv.appendChild(password);
     passwordDiv.appendChild(passwordSpan);
 
+    password.addEventListener('focusout', () => {
+        if (password.className === 'empty' && password.value === '') {
+            return;
+        } else {
+            password.className = '';
+            passwordSpan.className = '';
+            passwordSpan.textContent = '';
+        }
+    });
+
     // ----- 'Confirm Password' field ---------------------------------
     const confirmPasswordDiv = document.createElement('div');
     const confirmPassword = confirmPasswordInput();
@@ -99,22 +123,34 @@ function form() {
     confirmPasswordDiv.appendChild(confirmPasswordSpan);
 
     password.addEventListener('focusout', () => {
-        if (confirmPassword.value !== '' && confirmPassword.value !== password.value) {
-            confirmPasswordSpan.className = "active";
-            confirmPasswordSpan.textContent = "The passwords don't match.";
+        if (confirmPassword.className === 'empty' && confirmPassword.value === '') {
+            return;
+        } else if (confirmPassword.value !== '' && confirmPassword.value !== password.value) {
+            confirmPassword.setCustomValidity('The passwords don\'t match.');
+            confirmPassword.className = '';
+            confirmPasswordSpan.className = 'active';
+            confirmPasswordSpan.textContent = 'The passwords don\'t match.';
         } else {
-            confirmPasswordSpan.className = "";
-            confirmPasswordSpan.textContent = "";
+            confirmPassword.setCustomValidity('');
+            confirmPassword.className = '';
+            confirmPasswordSpan.className = '';
+            confirmPasswordSpan.textContent = '';
         }
     });
     
     confirmPassword.addEventListener('focusout', () => {
-        if (confirmPassword.value !== password.value && confirmPassword.value !== '') {
-            confirmPasswordSpan.className = "active";
-            confirmPasswordSpan.textContent = "The passwords don't match.";
+        if (confirmPassword.className === 'empty' && confirmPassword.value === '') {
+            return;
+        } else if (confirmPassword.value !== '' && confirmPassword.value !== password.value) {
+            confirmPassword.setCustomValidity('The passwords don\'t match.');
+            confirmPassword.className = '';
+            confirmPasswordSpan.className = 'active';
+            confirmPasswordSpan.textContent = 'The passwords don\'t match.';
         } else {
-            confirmPasswordSpan.className = "";
-            confirmPasswordSpan.textContent = "";
+            confirmPassword.setCustomValidity('');
+            confirmPassword.className = '';
+            confirmPasswordSpan.className = '';
+            confirmPasswordSpan.textContent = '';
         }
     });
     
@@ -128,16 +164,15 @@ function form() {
             const formInputElements = submit.closest('form').querySelectorAll('input');
 
             formInputElements.forEach(inputElement => {
+                const inputElementSpan = inputElement.closest('div').querySelector('span');
+
                 if (inputElement.validity.valueMissing) {
                     inputElement.className = 'empty';
-                    inputElement.setAttribute('placeholder', 'Required');
+                    inputElementSpan.className = 'active';
+                    inputElementSpan.textContent = 'This field is required.';
                 }
             });
-        }
-        
-        
-
-        
+        }        
     });
     
     // ----- Assembling the form --------------------------------------

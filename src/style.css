@@ -52,7 +52,7 @@ input {
 }
 
 input.empty {
-    background-color: lightcoral;
+    background-color: lightpink;
 }
 
 span[data-error-type] {
@@ -79,5 +79,6 @@ button[type="submit"] {
 }
 
 ::placeholder {
-    color: white;
+    color: #333;
+    
 }
